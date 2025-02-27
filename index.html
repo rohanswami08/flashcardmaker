@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Maker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main">
+        <h1>Flashcards</h1>
+
+        <div id="card">
+            <h1 id="card-term"></h1>
+            <h2 id="card-def"></h2>
+        </div>
+        <br>
+        <button id="prev-card"><</button>
+        <label id="current-card-display">0/0</label>
+        <button id="next-card">></button>
+        <br><br>
+        <input type="checkbox" id="start-with-def">
+        <label>Start with definition</label>
+        <br><br>
+        <button id="randomize-order">Randomize order</button>
+        <button id="reset-order">Reset order</button>
+        <br><br>
+        <label id="randomize-label">Order randomized; reset order to enable editing</label>
+        <br><br>
+        <button id="hide-editor">Hide editor</button>
+        <button id="show-editor" style="display: none;">Show editor</button>
+
+        <div id="editor">
+            <h2>Editor</h2>
+            <button id="delete-card">Delete</button> card #<input type="number" id="delete-input">
+            <br><br>
+            <table id="editor-table">
+                <tr id="table-head">
+                    <td><b>#</b></td>
+                    <td><b>Term</b></td>
+                    <td><b>Definition</b></td>
+                </tr>
+            </table>
+            <button id="add-card">Add card</button>
+            <br><br>
+            <button id="delete-all">Delete all</button>
+        </div>
+        <br><br>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
