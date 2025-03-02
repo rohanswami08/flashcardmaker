@@ -12,6 +12,7 @@ var hideEditor = document.getElementById('hide-editor')
 var editorDiv = document.getElementById('editor')
 var deleteCard = document.getElementById('delete-card')
 var deleteInput = document.getElementById('delete-input')
+var swapButton = document.getElementById('swap-button')
 var editorTable = document.getElementById('editor-table')
 var editorRows = document.getElementsByClassName('editor-row')
 var numCells = document.getElementsByClassName('num-cell')
@@ -20,6 +21,7 @@ var defInputs = document.getElementsByClassName('def-input')
 var addCard = document.getElementById('add-card')
 var deleteAll = document.getElementById('delete-all')
 
+var startingWithDef = false
 var displayingTerm = true
 var currentCard = 0
 var editorShown = true
@@ -71,12 +73,11 @@ card.addEventListener('click', function() {
     if (displayingTerm) {
         cardTerm.style.display = 'none'
         cardDef.style.display = 'block'
-        displayingTerm = false
     } else {
         cardTerm.style.display = 'block'
         cardDef.style.display = 'none'
-        displayingTerm = true
     }
+    displayingTerm = !displayingTerm
 })
 
 // "Prev", "Next" buttons click listeners
@@ -96,6 +97,12 @@ nextCard.addEventListener('click', function() {
 
 // "Start with definition" checkbox listener
 startWithDef.addEventListener('click', function() {
+    if (startingWithDef) {
+        startWithDef.innerText = 'start with definition'
+    } else {
+        startWithDef.innerText = 'start with term'
+    }
+    startingWithDef = !startingWithDef
     updateCard()
 })
 
@@ -147,15 +154,14 @@ resetOrder.addEventListener('click', function() {
 
 // Hide/show editor button click listener
 hideEditor.addEventListener('click', function () {
-    if (editorShown == true) {
+    if (editorShown) {
         editorDiv.style.display = 'none'
         hideEditor.innerText = 'Show editor'
-        editorShown = false
     } else {
         editorDiv.style.display = 'block'
         hideEditor.innerText = 'Hide editor'
-        editorShown = true
     }
+    editorShown = !editorShown
 })
 
 // Delete button click listener
@@ -164,6 +170,17 @@ deleteCard.addEventListener('click', function () {
     setLocalStorage()
     updateNumCells()
     currentCard = 0
+    updateCard()
+})
+
+// Swap term and def button click listener
+swapButton.addEventListener('click', function() {
+    for (let i = 0; i < editorRows.length; i ++) {
+        let temp = termInputs[i].value
+        termInputs[i].value = defInputs[i].value
+        defInputs[i].value = temp
+    }
+    setLocalStorage()
     updateCard()
 })
 
@@ -264,7 +281,7 @@ function updateCard() {
         cardDef.innerText = ''
     }
 
-    if (startWithDef.checked) {
+    if (startingWithDef) {
         cardTerm.style.display = 'none'
         cardDef.style.display = 'block'
         displayingTerm = false
