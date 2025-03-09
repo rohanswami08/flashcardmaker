@@ -20,6 +20,7 @@ var termInputs = document.getElementsByClassName('term-input')
 var defInputs = document.getElementsByClassName('def-input')
 var addCard = document.getElementById('add-card')
 var deleteAll = document.getElementById('delete-all')
+var clearAll = document.getElementById('clear-all')
 
 var startingWithDef = false
 var displayingTerm = true
@@ -51,6 +52,7 @@ function createRows() {
 
         const termCell = document.createElement('td')
         newRow.appendChild(termCell)
+
         const defCell = document.createElement('td')
         newRow.appendChild(defCell)
 
@@ -186,11 +188,13 @@ swapButton.addEventListener('click', function() {
 
 // Function add change listeners to inputs
 function addInputListeners(num) {
+    termInputs[num].placeholder = 'term...'
     termInputs[num].addEventListener('change', function () {
         setLocalStorage()
         updateCard()
     })
     
+    defInputs[num].placeholder = 'definition...'
     defInputs[num].addEventListener('change', function () {
         setLocalStorage()
         updateCard()
@@ -233,6 +237,23 @@ deleteAll.addEventListener('click', function () {
             let len = editorRows.length
             for (let i = 0; i < len; i ++) {
                 editorRows[0].remove()
+            }
+            setLocalStorage()
+            updateNumCells()
+            currentCard = 0
+            updateCard()
+        }
+    }
+})
+
+// Clear all button click listener
+clearAll.addEventListener('click', function () {
+    if (editorRows.length > 0) {
+        if (confirm('Are you sure you want to clear out all your terms and definitions?')) {
+            let len = editorRows.length
+            for (let i = 0; i < len; i ++) {
+                termInputs[i].value = ''
+                defInputs[i].value = ''
             }
             setLocalStorage()
             updateNumCells()
